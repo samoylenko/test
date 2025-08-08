@@ -1,0 +1,15 @@
+{
+  "name": "tsp-vulnerable-app-nodejs-express",
+  "version": "0.1.0",
+  "description": "Sample Vulnerable Application - NodeJS, Express",
+  "author": "Michael Samoylenko",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.7.3",
+    "pug": "^3.0.3"
+  }
+}
