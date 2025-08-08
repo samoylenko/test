@@ -1,0 +1,275 @@
+{
+    "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "tool": {
+                "driver": {
+                    "name": "Mosaify SARIF Report Exporter",
+                    "shortDescription": {
+                        "text": "Generic Mosaify report"
+                    }
+                }
+            },
+            "results": [
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/NoRateLimitingForExpensiveWebOperation-CWE-770",
+                    "message": {
+                        "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 38,
+                                    "startColumn": 1,
+                                    "endLine": 38,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "\nDetails\n\nWithout unlimited resources, software operating in the real world is inherently limited in the resources it may consume; similarly, servers are limited by the number of simultaneous sessions they can handle. Therefore, it is important for developers to design software that considers these real-world physical (or virtual) limitations and limits user sessions accordingly, both in terms of the number of user sessions and in the quantity of resources each user may demand. Software with this weakness does not include such limitations and as a result, individual user sessions may consume too many resources, leading to unintended software behavior including, potentially, denial of service. This can be compared to a single restaurant customer emptying out the entire buffet, leaving no food for other customers--or an entire busload mobbing the buffet all at once, with a similar effect. This may happen inadvertently or as a result of an attack by a malicious user.\n\nBest practices for prevention\n* Test extensively to obtain baseline values indicating how the software performs in the real world under various conditions (normal and peak); use these values to determine reasonable software limits.\n* Set clear limits for all flexible parameters such as maximum allocable memory, number of processes within a given timeframe, file descriptors, requests per client, number of records per request, etc. This is particularly true for any parameters within user control.\n* Release all resources when no longer in use, including incorporating timeouts for inactive users, processes, and resources.\n* Familiarize Dev, Ops, and IT teams with best practices for recognizing and preventing DoS attacks and out-of-control resource allocation to prevent catastrophic failures.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "MEDIUM",
+                            "identifiers": [
+                                "javascript/NoRateLimitingForExpensiveWebOperation",
+                                "CWE-770"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 38
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/XSS-CWE-79",
+                    "level": "error",
+                    "message": {
+                        "text": "Unsanitized input from an HTTP parameter flows into send, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS)."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 33,
+                                    "startColumn": 1,
+                                    "endLine": 33,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "Unsanitized input from an HTTP parameter flows into send, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS).",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "Details\n\nA cross-site scripting attack occurs when the attacker tricks a legitimate web-based application or site to accept a request as originating from a trusted source.\n\nThis is done by escaping the context of the web application; the web application then delivers that data to its users along with other trusted dynamic content, without validating it. The browser unknowingly executes malicious script on the client side (through client-side languages; usually JavaScript or HTML) in order to perform actions that are otherwise typically blocked by the browser's Same Origin Policy.\n\nInjecting malicious code is the most prevalent manner by which XSS is exploited; for this reason, escaping characters in order to prevent this manipulation is the top method for securing code against this vulnerability.\n\nEscaping means that the application is coded to mark key characters, and particularly key characters included in user input, to prevent those characters from being interpreted in a dangerous context. For example, in HTML, < can be coded as &lt; and > can be coded as &gt; in order to be interpreted and displayed as themselves in text, while within the code itself, they are used for HTML tags. If malicious content is injected into an application that escapes special characters and that malicious content uses < and > as HTML tags, those characters are nonetheless not interpreted as HTML tags by the browser if they've been correctly escaped in the application code and in this way the attempted attack is diverted.\n\nThe most prominent use of XSS is to steal cookies (source: OWASP HttpOnly) and hijack user sessions, but XSS exploits have been used to expose sensitive information, enable access to privileged services and functionality and deliver malware.\n\nTypes of attacks\nThere are a few methods by which XSS can be manipulated:\n\n|Type|Origin|Description|\n|--|--|--|\n|Stored|Server|The malicious code is inserted in the application (usually as a link) by the attacker. The code is activated every time a user clicks the link.|\n|Reflected|Server|The attacker delivers a malicious link externally from the vulnerable web site application to a user. When clicked, malicious code is sent to the vulnerable web site, which reflects the attack back to the user's browser.|\n|DOM-based|Client|The attacker forces the user's browser to render a malicious page. The data in the page itself delivers the cross-site scripting data.|\n|Mutated| |The attacker injects code that appears safe, but is then rewritten and modified by the browser, while parsing the markup. An example is rebalancing unclosed quotation marks or even adding quotation marks to unquoted parameters.|\n\nAffected environments\nThe following environments are susceptible to an XSS attack:\n\n* Web servers\n* Application servers\n* Web application environments\n\nBest practices for prevention\nThis section describes the top best practices designed to specifically protect your code:\n\n* Sanitize data input in an HTTP request before reflecting it back, ensuring all data is validated, filtered or escaped before echoing anything back to the user, such as the values of query parameters during searches.\n* Convert special characters such as ?, &, /, <, > and spaces to their respective HTML or URL encoded equivalents.\n* Give users the option to disable client-side scripts.\n* Redirect invalid requests.\n* Detect simultaneous logins, including those from two separate IP addresses, and invalidate those sessions.\n* Use and enforce a Content Security Policy (source: Wikipedia) to disable any features that might be manipulated for an XSS attack.\n* Read the documentation for any of the libraries referenced in your code to understand which elements allow for embedded HTML.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "HIGH",
+                            "identifiers": [
+                                "javascript/XSS",
+                                "CWE-79"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 33
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/XSS-CWE-79",
+                    "level": "error",
+                    "message": {
+                        "text": "Unsanitized input from an HTTP parameter flows into send, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS)."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 47,
+                                    "startColumn": 1,
+                                    "endLine": 47,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "Unsanitized input from an HTTP parameter flows into send, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS).",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "Details\n\nA cross-site scripting attack occurs when the attacker tricks a legitimate web-based application or site to accept a request as originating from a trusted source.\n\nThis is done by escaping the context of the web application; the web application then delivers that data to its users along with other trusted dynamic content, without validating it. The browser unknowingly executes malicious script on the client side (through client-side languages; usually JavaScript or HTML) in order to perform actions that are otherwise typically blocked by the browser's Same Origin Policy.\n\nInjecting malicious code is the most prevalent manner by which XSS is exploited; for this reason, escaping characters in order to prevent this manipulation is the top method for securing code against this vulnerability.\n\nEscaping means that the application is coded to mark key characters, and particularly key characters included in user input, to prevent those characters from being interpreted in a dangerous context. For example, in HTML, < can be coded as &lt; and > can be coded as &gt; in order to be interpreted and displayed as themselves in text, while within the code itself, they are used for HTML tags. If malicious content is injected into an application that escapes special characters and that malicious content uses < and > as HTML tags, those characters are nonetheless not interpreted as HTML tags by the browser if they've been correctly escaped in the application code and in this way the attempted attack is diverted.\n\nThe most prominent use of XSS is to steal cookies (source: OWASP HttpOnly) and hijack user sessions, but XSS exploits have been used to expose sensitive information, enable access to privileged services and functionality and deliver malware.\n\nTypes of attacks\nThere are a few methods by which XSS can be manipulated:\n\n|Type|Origin|Description|\n|--|--|--|\n|Stored|Server|The malicious code is inserted in the application (usually as a link) by the attacker. The code is activated every time a user clicks the link.|\n|Reflected|Server|The attacker delivers a malicious link externally from the vulnerable web site application to a user. When clicked, malicious code is sent to the vulnerable web site, which reflects the attack back to the user's browser.|\n|DOM-based|Client|The attacker forces the user's browser to render a malicious page. The data in the page itself delivers the cross-site scripting data.|\n|Mutated| |The attacker injects code that appears safe, but is then rewritten and modified by the browser, while parsing the markup. An example is rebalancing unclosed quotation marks or even adding quotation marks to unquoted parameters.|\n\nAffected environments\nThe following environments are susceptible to an XSS attack:\n\n* Web servers\n* Application servers\n* Web application environments\n\nBest practices for prevention\nThis section describes the top best practices designed to specifically protect your code:\n\n* Sanitize data input in an HTTP request before reflecting it back, ensuring all data is validated, filtered or escaped before echoing anything back to the user, such as the values of query parameters during searches.\n* Convert special characters such as ?, &, /, <, > and spaces to their respective HTML or URL encoded equivalents.\n* Give users the option to disable client-side scripts.\n* Redirect invalid requests.\n* Detect simultaneous logins, including those from two separate IP addresses, and invalidate those sessions.\n* Use and enforce a Content Security Policy (source: Wikipedia) to disable any features that might be manipulated for an XSS attack.\n* Read the documentation for any of the libraries referenced in your code to understand which elements allow for embedded HTML.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "HIGH",
+                            "identifiers": [
+                                "javascript/XSS",
+                                "CWE-79"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 47
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/NoHardcodedPasswords-CWE-798-CWE-259",
+                    "message": {
+                        "text": "Do not hardcode passwords in code. Found hardcoded password used in pg.Client."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 8,
+                                    "startColumn": 1,
+                                    "endLine": 8,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "Do not hardcode passwords in code. Found hardcoded password used in pg.Client.",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "\nDetails\n\nDevelopers may use hardcoded credentials for convenience when coding in order to simplify their workflow. While they are responsible for removing these before production, occasionally this task may fall through the cracks. This also becomes a maintenance challenge when credentials are re-used across multiple applications.\n\nOnce attackers gain access, they may take advantage of privilege level to remove or alter data, take down a site or app, or hold any of the above for ransom. The risk across multiple similar projects is even greater. If code containing the credentials is reused across multiple projects, they will all be compromised.\n\nBest practices for prevention\n* Plan software architecture such that keys and passwords are always stored outside the code, wherever possible.\n* Plan encryption into software architecture for all credential information and ensure proper handling of keys, credentials, and passwords.\n* Prompt for a secure password on first login rather than hard-code a default password.\n* If a hardcoded password or credential must be used, limit its use, for example, to system console users rather than via the network.\n* Use strong hashes for inbound password authentication, ideally with randomly assigned salts to increase the difficulty level in case of brute-force attack.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "MEDIUM",
+                            "identifiers": [
+                                "javascript/NoHardcodedPasswords",
+                                "CWE-798",
+                                "CWE-259"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 8
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/NoHardcodedCredentials-CWE-798",
+                    "level": "note",
+                    "message": {
+                        "text": "Do not hardcode credentials in code. Found hardcoded credential used in pg.Client."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 7,
+                                    "startColumn": 1,
+                                    "endLine": 7,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "Do not hardcode credentials in code. Found hardcoded credential used in pg.Client.",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "\nDetails\n\nDevelopers may use hardcoded credentials for convenience when coding in order to simplify their workflow. While they are responsible for removing these before production, occasionally this task may fall through the cracks. This also becomes a maintenance challenge when credentials are re-used across multiple applications.\n\nOnce attackers gain access, they may take advantage of privilege level to remove or alter data, take down a site or app, or hold any of the above for ransom. The risk across multiple similar projects is even greater. If code containing the credentials is reused across multiple projects, they will all be compromised.\n\nBest practices for prevention\n* Plan software architecture such that keys and passwords are always stored outside the code, wherever possible.\n* Plan encryption into software architecture for all credential information and ensure proper handling of keys, credentials, and passwords.\n* Prompt for a secure password on first login rather than hard-code a default password.\n* If a hardcoded password or credential must be used, limit its use, for example, to system console users rather than via the network.\n* Use strong hashes for inbound password authentication, ideally with randomly assigned salts to increase the difficulty level in case of brute-force attack.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "LOW",
+                            "identifiers": [
+                                "javascript/NoHardcodedCredentials",
+                                "CWE-798"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 7
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "ruleId": "mosaify-export-Snyk-Code-javascript/Sqli-CWE-89",
+                    "level": "error",
+                    "message": {
+                        "text": "Unsanitized input from an HTTP parameter flows into query, where it is used in an SQL query. This may result in an SQL Injection vulnerability."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "index.js"
+                                },
+                                "region": {
+                                    "startLine": 44,
+                                    "startColumn": 1,
+                                    "endLine": 44,
+                                    "endColumn": 1
+                                }
+                            }
+                        }
+                    ],
+                    "properties": {
+                        "mosaify-issue": {
+                            "summary": "Unsanitized input from an HTTP parameter flows into query, where it is used in an SQL query. This may result in an SQL Injection vulnerability.",
+                            "detectedBy": [
+                                "Snyk Code"
+                            ],
+                            "description": "Details\n\nIn an SQL injection attack, the user can submit an SQL query directly to the database, gaining access without providing appropriate credentials. Attackers can then view, export, modify, and delete confidential information; change passwords and other authentication information; and possibly gain access to other systems within the network. This is one of the most commonly exploited categories of vulnerability, but can largely be avoided through good coding practices.\n\nBest practices for prevention\n* Avoid passing user-entered parameters directly to the SQL server.\n* Avoid using string concatenation to build SQL queries from user-entered parameters.\n* When coding, define SQL code first, then pass in parameters. Use prepared statements with parameterized queries. Examples include SqlCommand() in .NET and bindParam() in PHP.\n* Use strong typing for all parameters so unexpected user data will be rejected.\n* Where direct user input cannot be avoided for performance reasons, validate input against a very strict allowlist of permitted characters, avoiding special characters such as ? & / < > ; - ' \"  and spaces. Use a vendor-supplied escaping routine if possible.\n* Develop your application in an environment and/or using libraries that provide protection against SQL injection.\n* Harden your entire environment around a least-privilege model, ideally with isolated accounts with privileges only for particular tasks.",
+                            "type": "CODE_VULNERABILITY",
+                            "severity": "HIGH",
+                            "identifiers": [
+                                "javascript/Sqli",
+                                "CWE-89"
+                            ],
+                            "locations": [
+                                {
+                                    "url": "index.js",
+                                    "lineNumber": 44
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
